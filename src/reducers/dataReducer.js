@@ -23,7 +23,8 @@ export default function reducer(state={
                 error: action.payload
               }
      }
-
+     default: {
+       return state
+     }
   }
-  return state;
 }

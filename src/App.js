@@ -3,7 +3,9 @@ import './App.css';
 import { Map, TileLayer } from 'react-leaflet'
 import { connect } from 'react-redux';
 import { requestMap } from './actions';
+
 import DataLayer from './components/DataLayer'
+import DataController from './components/DataController'
 
 
 const mapStateToProps = state => ({
@@ -29,6 +31,7 @@ class App extends Component {
 
 
     return (
+    <div>
       <Map center={position} zoom={2}>
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -36,6 +39,8 @@ class App extends Component {
         />
         <DataLayer/>
       </Map>
+      <DataController />
+    </div>
     );
   }
 }

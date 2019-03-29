@@ -1,5 +1,14 @@
 .leaflet-container {
-  height: 520px;
+  height: 530px;
   width: 100%;
   margin: 0 auto;
+  position: relative;
+  z-index:1;
+}
+
+#dataController {
+	position:absolute;
+	left: 0;
+	bottom: 0;
+	z-index:2;
 }
