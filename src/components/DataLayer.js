@@ -12,23 +12,6 @@ const mapDispatchToProps = dispatch => ({
 
 
 class DataLayer extends Component {
-
-  componentWillReceiveProps(nextProps){
-    if (
-      (
-        this.props.category.selected !== nextProps.category.selected ||
-        this.props.year.selected !== nextProps.year.selected 
-      ) &&
-      nextProps.category.selected !== null &&
-      nextProps.year.selected !== null
-    ) {
-      this.props.requestData({
-        category: nextProps.category.selected,
-        year: nextProps.year.selected
-      })
-    }
-  }
-
   render() {
     return (
       <LayerGroup>

@@ -1,5 +1,6 @@
 export default function reducer(state={
   data: [],
+  selected: null,
   fetching: false,
   fetched: false,
   error: null
@@ -21,6 +22,18 @@ export default function reducer(state={
                 ...state,
                 fetching: false,
                 error: action.payload
+              }
+     }
+     case "SELECT_CRITERIA":{
+       return {
+                ...state,
+                selected: parseInt(action.payload)
+              }
+     }
+     case "UNSELECT_CRITERIA":{
+       return {
+                ...state,
+                selected: null
               }
      }
      default: {
