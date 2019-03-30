@@ -25,7 +25,7 @@ class App extends Component {
   
   render() {
 
-    if (!this.props.map.geojson){
+    if (!this.props.map.fetched){
         return <div>Loading...</div>
     }
 

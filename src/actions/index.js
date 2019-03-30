@@ -13,7 +13,10 @@ export const requestData = (obj) => dispatch => {
 	if (obj.category) url += `categories=${obj.category}&`;
 	if (obj.year) url += `year=${obj.year}&`;
 	fetch(url).then((res) => res.json())
-	.then((data) => dispatch({type:'RECIEVE_DATA', payload: data}))
+	.then((data) => {
+		dispatch({type:'RECIEVE_DATA', payload: data})
+		dispatch({type:'UPDATE_COROPLETH', payload: data})
+	})
 	.catch((err) => dispatch({type:'ERROR_DATA', payload: err}))
 }
 
