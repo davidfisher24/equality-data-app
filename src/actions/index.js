@@ -14,8 +14,7 @@ export const requestData = (obj) => (dispatch,getState) => {
 		obj.type === 'categories' ? 
 		obj.category :
 		obj.criteria
-	}&`;
-	if (obj.year) url += `year=${obj.year}&`;
+	}&year=${obj.year}`;
 	fetch(url).then((res) => res.json())
 	.then((data) => {
 		dispatch({type:'RECIEVE_DATA', payload: data})
@@ -42,7 +41,7 @@ export const requestCategories = () => dispatch => {
 }
 export const selectCategory = (val) => (dispatch,getState) => {
 	dispatch({type:'SELECT_CATEGORY', payload: val})
-	if (getState().year.selected) dispatch(requestData({
+	dispatch(requestData({
 		type: 'categories',
 		category: val,
 		year: getState().year.selected
@@ -56,10 +55,9 @@ export const selectYear = (val) => (dispatch,getState) => {
 	if (getState().category.selected) dispatch(requestData({
 		type: 'categories',
 		category: getState().category.selected,
-		year: val
+		year: val,
 	}))
 }
-export const unselectYear = () => dispatch => dispatch({type:'UNSELECT_YEAR'})
 
 export const requestCriteria = ({criteria}) => dispatch => {
 	let url = criteria ? 
@@ -72,7 +70,7 @@ export const requestCriteria = ({criteria}) => dispatch => {
 }
 export const selectCriteria = (val) => (dispatch,getState) => {
 	dispatch({type:'SELECT_CRITERIA', payload: val})
-	if (getState().year.selected) dispatch(requestData({
+	dispatch(requestData({
 		type: 'criteria',
 		criteria: val,
 		year: getState().year.selected
