@@ -17,6 +17,12 @@ export default function reducer(state={
               data:action.payload
               }
     }
+    case "EMPTY_CRITERIA":{
+      return {
+              ...state,
+              data:[]
+              }
+    }
      case "ERROR_CRITERIA":{
        return {
                 ...state,

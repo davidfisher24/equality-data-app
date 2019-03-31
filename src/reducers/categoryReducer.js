@@ -24,6 +24,12 @@ export default function reducer(state={
                 error: action.payload
               }
      }
+     case "EMPTY_CATEGORY":{
+      return {
+              ...state,
+              data:[]
+              }
+    }
      case "SELECT_CATEGORY":{
        return {
                 ...state,

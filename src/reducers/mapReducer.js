@@ -13,9 +13,17 @@ const getColor = (d) => {
                     '#FFEDA0';
 } 
 
+const getBooleanColor = (d) => {
+    if (!d) return '#FFFFFF'
+    d = d.criteria[0].value
+    return d ? '#00FF00' : '#FF0000';
+} 
+
 export default function reducer(state={
   coropleth: [],
+  boolean: [],
   markers: [],
+  displayed: null,
   fetching: false,
   fetched: false,
   error: null
@@ -35,7 +43,7 @@ export default function reducer(state={
                 feat.geometry.coordinates = LConvertor(feat.geometry.coordinates)
                 feat.properties.key = feat.properties.ISO_A3 
                 return feat; 
-              })
+              }),
             }
     }
      case "ERROR_MAP":{
@@ -53,7 +61,20 @@ export default function reducer(state={
                   feat.properties.fillColor = getColor(data);
                   feat.properties.fillOpacity = 0.5;
                   return feat; 
-                })
+                }),
+                displayed: 'coropleth',
+              }
+     }
+     case "UPDATE_BOOLEAN_DATA":{
+       return {
+                ...state,
+                coropleth: state.coropleth.map((feat, i) => {
+                  let data = action.payload.find(x => x.Country.wbcodev2 === feat.properties.key);
+                  feat.properties.fillColor = getBooleanColor(data);
+                  feat.properties.fillOpacity = 0.5;
+                  return feat; 
+                }),
+                displayed: 'boolean',
               }
      }
      case "UPDATE_MARKERS":{

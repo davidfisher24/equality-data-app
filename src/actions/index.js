@@ -10,7 +10,7 @@ export const requestMap = () => dispatch => {
 
 export const requestData = (obj) => (dispatch,getState) => {
 	let url = 'http://127.0.0.1:3001/data?';
-	if (obj.category) url += `${obj.type}=${
+	url += `${obj.type}=${
 		obj.type === 'categories' ? 
 		obj.category :
 		obj.criteria
@@ -18,7 +18,9 @@ export const requestData = (obj) => (dispatch,getState) => {
 	fetch(url).then((res) => res.json())
 	.then((data) => {
 		dispatch({type:'RECIEVE_DATA', payload: data})
-		dispatch({type:'UPDATE_COROPLETH', payload: data})
+		obj.type === 'categories' ? 
+		dispatch({type:'UPDATE_COROPLETH', payload: data}) :
+		dispatch({type:'UPDATE_BOOLEAN_DATA', payload: data})
 	})
 	.catch((err) => dispatch({type:'ERROR_DATA', payload: err}))
 }
@@ -41,6 +43,8 @@ export const requestCategories = () => dispatch => {
 }
 export const selectCategory = (val) => (dispatch,getState) => {
 	dispatch({type:'SELECT_CATEGORY', payload: val})
+	dispatch({type:'UNSELECT_CRITERIA', payload: val})
+	dispatch({type:'EMPTY_CRITERIA'})
 	dispatch(requestData({
 		type: 'categories',
 		category: val,
@@ -52,18 +56,22 @@ export const unselectCategory = () => dispatch => dispatch({type:'UNSELECT_CATEG
 export const requestYears = () => dispatch => dispatch({type: 'REQUEST_YEARS'})
 export const selectYear = (val) => (dispatch,getState) => {
 	dispatch({type:'SELECT_YEAR', payload: val})
-	if (getState().category.selected) dispatch(requestData({
+
+	if (getState().map.displayed === 'coropleth') dispatch(requestData({
 		type: 'categories',
 		category: getState().category.selected,
 		year: val,
 	}))
+
+	if (getState().map.displayed === 'boolean') dispatch(requestData({
+		type: 'criteria',
+		criteria: getState().criteria.selected,
+		year: val,
+	}))
 }
 
-export const requestCriteria = ({criteria}) => dispatch => {
-	let url = criteria ? 
-			'http://127.0.0.1:3001/criteria' :
-			`'http://127.0.0.1:3001/criteria/${criteria}'`
-
+export const requestCriteria = (obj) => (dispatch) => {
+	let url = `http://127.0.0.1:3001/criteria?CategoryId=${obj.category}`
 	fetch(url).then((res) => res.json())
 	.then((data) => dispatch({type:'RECIEVE_CRITERIA', payload: data}))
 	.catch((err) => dispatch({type:'ERROR_CRITERIA', payload: err}))

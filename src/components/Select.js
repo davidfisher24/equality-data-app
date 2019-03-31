@@ -1,31 +1,69 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
 
-class Select extends Component {
+const styles = {
+  control: (styles, { options }) => { 
+    return {
+      ...styles, 
+      backgroundColor: 'white',
+      width: '300px'
+    };
+  },
+  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+    return {
+      ...styles,
+      backgroundColor: '#FFF',
+      color: '#000',
+      fontSize: '12px'
+    };
+  },
+};
+
+class _Select extends Component {
   constructor(props) {
     super(props);
-    this.state = { value: -1 };
+    this.state = {
+      selectedOption: -1,
+    }
   }
-  onChange(e) {
-    this.setState({
-      value: e.target.value
-    })
-    this.props.onChange(e.target.value)
+
+  componentDidMount() {
+    this.props.onRef(this)
+  }
+  componentWillUnmount() {
+    this.props.onRef(undefined)
+  }
+
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    this.props.onChange(selectedOption.value)
+  }
+
+  handleEmpty = () => {
+    this.setState({ selectedOption: -1 });
   }
 
   render() {
+    const { selectedOption } = this.state;
     return (
-      <div className="form-group">
-        <select value={this.state.value} onChange={this.onChange.bind(this)} className="form-control">
-        <option value={-1} key={-1}>Select....</option>
-        {this.props.options.map(opt => {
-          return <option value={opt.id} key={opt.id} >{opt.question}</option>
+      <Select
+        value={selectedOption}
+        placeholder={this.props.placeholder}
+        styles={styles}
+        onChange={this.handleChange.bind(this)}
+        autosize={true}
+        options={this.props.options.map(opt => {
+          return {
+            value: opt.id,
+            label: opt.question,
+            key: opt.id
+          }
         })}
-      </select>
-      </div>
-      
+      >
+      </Select>
     )
   }
 }
 
-export default Select;
+export default _Select;
 
