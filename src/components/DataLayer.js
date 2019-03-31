@@ -1,13 +1,9 @@
 import React, { Component } from 'react';
 import { LayerGroup, Polygon } from 'react-leaflet'
 import { connect } from 'react-redux';
-import { requestData } from '../actions';
 
 const mapStateToProps = state => ({
  ...state
-})
-const mapDispatchToProps = dispatch => ({
-  requestData: (obj) => dispatch(requestData(obj)),
 })
 
 
@@ -32,4 +28,4 @@ class DataLayer extends Component {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(DataLayer);
+export default connect(mapStateToProps)(DataLayer);

@@ -5,11 +5,13 @@ import data from "./dataReducer";
 import category from "./categoryReducer";
 import criteria from "./criteriaReducer";
 import year from "./yearReducer";
+import experience from "./experienceReducer";
 
 export default combineReducers({
  	map,
  	data,
  	category,
  	criteria,
- 	year
+ 	year,
+ 	experience
 });

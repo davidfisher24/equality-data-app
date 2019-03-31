@@ -24,6 +24,16 @@ export const requestData = (obj) => (dispatch,getState) => {
 	.catch((err) => dispatch({type:'ERROR_DATA', payload: err}))
 }
 
+export const requestExperiences = () => dispatch => {
+	let url = 'http://127.0.0.1:3001/experience';
+	fetch(url).then((res) => res.json())
+	.then((data) => {
+		dispatch({type:'RECIEVE_EXPERIENCES', payload: data})
+		dispatch({type:'UPDATE_MARKERS', payload: data})
+	})
+	.catch((err) => dispatch({type:'ERROR_MARKERS', payload: err}))
+}
+
 export const requestCategories = () => dispatch => {
 	let url = 'http://127.0.0.1:3001/category' 
 	fetch(url).then((res) => res.json())

@@ -14,8 +14,8 @@ const getColor = (d) => {
 } 
 
 export default function reducer(state={
-  //geojson: { type: 'FeatureCollection', features: [] },
   coropleth: [],
+  markers: [],
   fetching: false,
   fetched: false,
   error: null
@@ -29,7 +29,6 @@ export default function reducer(state={
               ...state,
               fetching: false,
               fetched: true,
-              //geojson: action.payload,
               coropleth: action.payload.features.map((feat, i) => {
                 feat.properties.fillColor = 'white';
                 feat.properties.fillOpacity = 0;
@@ -53,6 +52,15 @@ export default function reducer(state={
                   let data = action.payload.find(x => x.Country.wbcodev2 === feat.properties.key);
                   feat.properties.fillColor = getColor(data);
                   feat.properties.fillOpacity = 0.5;
+                  return feat; 
+                })
+              }
+     }
+     case "UPDATE_MARKERS":{
+       return {
+                ...state,
+                markers: action.payload.features.map((feat, i) => {
+                  feat.geometry.coordinates = LConvertor(feat.geometry.coordinates)
                   return feat; 
                 })
               }

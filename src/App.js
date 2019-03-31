@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import { Map, TileLayer } from 'react-leaflet'
 import { connect } from 'react-redux';
-import { requestMap } from './actions';
+import { requestMap/*, requestExperiences*/ } from './actions';
 
 import DataLayer from './components/DataLayer'
+import MarkerLayer from './components/MarkerLayer'
 import DataController from './components/DataController'
 
 
@@ -13,6 +14,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   requestMap: () => dispatch(requestMap()),
+  //requestExperiences: () => dispatch(requestExperiences()),
 })
 
 const position = [51.505, -0.09]
@@ -21,6 +23,7 @@ class App extends Component {
 
   componentDidMount () {
     this.props.requestMap();
+    //this.props.requestExperiences();
   }
   
   render() {
@@ -38,6 +41,7 @@ class App extends Component {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <DataLayer/>
+        <MarkerLayer/>
       </Map>
       <DataController />
     </div>
