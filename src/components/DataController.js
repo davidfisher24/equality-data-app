@@ -5,6 +5,7 @@ import {
   requestCriteria, 
   selectCategory,
   selectCriteria,
+  unselectCategory,
   unselectCriteria,
 } from '../actions';
 
@@ -18,6 +19,7 @@ const mapDispatchToProps = dispatch => ({
   requestCriteria: (obj) => dispatch(requestCriteria(obj)),
   selectCategory: (val) => dispatch(selectCategory(val)),
   selectCriteria: (val) => dispatch(selectCriteria(val)),
+  unselectCategory: () => dispatch(unselectCategory()),
   unselectCriteria: () => dispatch(unselectCriteria()),
 })
 
@@ -30,7 +32,6 @@ class DataController extends Component {
   handleCategoryChange (val) {
     val ? this.props.selectCategory(val) : this.props.unselectCategory();
     this.criteriaSelect.handleEmpty()
-
     if (val) this.props.requestCriteria({category: val})
   }
 
