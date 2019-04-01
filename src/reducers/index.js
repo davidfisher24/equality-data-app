@@ -6,6 +6,7 @@ import category from "./categoryReducer";
 import criteria from "./criteriaReducer";
 import year from "./yearReducer";
 import experience from "./experienceReducer";
+import modal from './modalReducer';
 
 export default combineReducers({
  	map,
@@ -13,5 +14,6 @@ export default combineReducers({
  	category,
  	criteria,
  	year,
- 	experience
+ 	experience,
+ 	modal
 });

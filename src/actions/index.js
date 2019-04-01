@@ -90,3 +90,6 @@ export const selectCriteria = (val) => (dispatch,getState) => {
 }
 export const unselectCriteria = () => dispatch => dispatch({type:'UNSELECT_CRITERIA'})
 
+export const openModal = (type) => dispatch => dispatch({type:'OPEN_MODAL', payload: type})
+export const closeModal = () => dispatch => dispatch({type:'CLOSE_MODAL'})
+

@@ -4,6 +4,7 @@ import { Menu, Icon } from "antd";
 import { 
   requestExperiences, 
   removeExperiences, 
+  openModal,
 } from '../actions';
 
 const mapStateToProps = state => ({
@@ -12,7 +13,9 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   requestExperiences: (val) => dispatch(requestExperiences()),
   removeExperiences: (val) => dispatch(removeExperiences()),
+  openModal: (val) => dispatch(openModal(val)),
 })
+
 
 class _Menu extends Component {
   constructor(props) {
@@ -42,6 +45,20 @@ class _Menu extends Component {
     });
   }
 
+  openModal = (val) => {
+    let type;
+    switch (parseInt(val.key)) {
+      case 2:
+        type = 'add-experience';
+        break;
+      case 4:
+      default:
+        type = 'see-information';
+        break;
+    }
+    this.props.openModal(type)
+  }
+
   render() {
     const {collapsed} = this.state
     return (
@@ -51,7 +68,10 @@ class _Menu extends Component {
           mode="inline"
           theme="light"
           inlineCollapsed={collapsed}
-          style={{ float: 'right', background: this.state.collapsed ? 'none' : '#FFF'}} 
+          style={{ 
+            float: 'right', 
+            background: this.state.collapsed ? 'none' : '#FFF'
+          }} 
         >
           <Menu.Item key="0" onClick={this.toggleCollapsed} >
             <Icon type={this.state.collapsed ? 'left-circle' : 'right-circle'} />
@@ -63,7 +83,7 @@ class _Menu extends Component {
             <span>Show Markers</span>
           </Menu.Item>
 
-          <Menu.Item key="2">
+          <Menu.Item key="2" onClick={this.openModal.bind(this)}>
             <Icon type="plus-circle" />
             <span>Add Your Marker</span>
           </Menu.Item>
@@ -71,7 +91,7 @@ class _Menu extends Component {
             <Icon type="pie-chart"/>
             <span>Show Table Data</span>
           </Menu.Item>
-          <Menu.Item key="4">
+          <Menu.Item key="4" onClick={this.openModal.bind(this)}>
             <Icon type="info-circle"/>
             <span>Information</span>
           </Menu.Item>
