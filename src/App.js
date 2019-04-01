@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import { Map, TileLayer } from 'react-leaflet'
+import { Map, TileLayer, ZoomControl } from 'react-leaflet'
 import { connect } from 'react-redux';
 import { requestMap } from './actions';
 
@@ -41,6 +41,7 @@ class App extends Component {
         />
         <DataLayer/>
         <MarkerLayer/>
+        <ZoomControl position="bottomright" />
       </Map>
       <YearController />
       <DataController />
