@@ -86,6 +86,12 @@ export default function reducer(state={
                 })
               }
      }
+     case "REMOVE_MARKERS":{
+       return {
+                ...state,
+                markers: []
+              }
+     }
      default: {
        return state
      }

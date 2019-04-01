@@ -35,6 +35,10 @@ export const requestExperiences = () => dispatch => {
 	.catch((err) => dispatch({type:'ERROR_MARKERS', payload: err}))
 }
 
+export const removeExperiences = () => dispatch => {
+	dispatch({type:'REMOVE_MARKERS'})
+}
+
 export const requestCategories = () => dispatch => {
 	let url = 'http://127.0.0.1:3001/category' 
 	fetch(url).then((res) => res.json())

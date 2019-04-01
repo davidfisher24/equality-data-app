@@ -8,6 +8,7 @@ import DataLayer from './components/DataLayer'
 import MarkerLayer from './components/MarkerLayer'
 import DataController from './components/DataController'
 import YearController from './components/YearController'
+import Menu from './components/Menu'
 
 
 const mapStateToProps = state => ({
@@ -45,6 +46,7 @@ class App extends Component {
       </Map>
       <YearController />
       <DataController />
+      <Menu />
     </div>
     );
   }
