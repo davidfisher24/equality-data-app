@@ -1,6 +1,6 @@
 export default function reducer(state={
-  visible: true,
-  type:  'entry-message'
+  visible: false,
+  type:  null
 }, action){
   switch (action.type) {
     case "OPEN_MODAL":{

@@ -15,9 +15,9 @@ class DataLayer extends Component {
            return (<Polygon 
             color="white"
             fillColor={feat.properties.fillColor}
-            weight={1}
-            opacity={1}
-            dashArray={3}
+            weight={0}
+            opacity={0}
+            dashArray={0}
             fillOpacity={feat.properties.fillOpacity}
             positions={feat.geometry.coordinates} 
             key={feat.properties.key} 
