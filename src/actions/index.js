@@ -14,7 +14,7 @@ export const requestData = (obj) => (dispatch,getState) => {
 		obj.type === 'categories' ? 
 		obj.category :
 		obj.criteria
-	}&year=${obj.year}`;
+	}&year=${getState().year.selected}`;
 	fetch(url).then((res) => res.json())
 	.then((data) => {
 		dispatch({type:'RECIEVE_DATA', payload: data})
@@ -49,29 +49,12 @@ export const selectCategory = (val) => (dispatch,getState) => {
 	dispatch({type:'SELECT_CATEGORY', payload: val})
 	dispatch({type:'UNSELECT_CRITERIA', payload: val})
 	dispatch({type:'EMPTY_CRITERIA'})
-	dispatch(requestData({
-		type: 'categories',
-		category: val,
-		year: getState().year.selected
-	}))
 }
 export const unselectCategory = () => dispatch => dispatch({type:'UNSELECT_CATEGORY'})
 
 export const requestYears = () => dispatch => dispatch({type: 'REQUEST_YEARS'})
 export const selectYear = (val) => (dispatch,getState) => {
 	dispatch({type:'SELECT_YEAR', payload: val})
-
-	if (getState().map.displayed === 'coropleth') dispatch(requestData({
-		type: 'categories',
-		category: getState().category.selected,
-		year: val,
-	}))
-
-	if (getState().map.displayed === 'boolean') dispatch(requestData({
-		type: 'criteria',
-		criteria: getState().criteria.selected,
-		year: val,
-	}))
 }
 
 export const requestCriteria = (obj) => (dispatch) => {
@@ -82,14 +65,22 @@ export const requestCriteria = (obj) => (dispatch) => {
 }
 export const selectCriteria = (val) => (dispatch,getState) => {
 	dispatch({type:'SELECT_CRITERIA', payload: val})
-	dispatch(requestData({
-		type: 'criteria',
-		criteria: val,
-		year: getState().year.selected
-	}))
 }
 export const unselectCriteria = () => dispatch => dispatch({type:'UNSELECT_CRITERIA'})
 
 export const openModal = (type) => dispatch => dispatch({type:'OPEN_MODAL', payload: type})
 export const closeModal = () => dispatch => dispatch({type:'CLOSE_MODAL'})
 
+export const buildExperience = (obj) => dispatch => dispatch({type:'BUILD_EXPERIENCE', payload: obj})
+export const emptyExperience = (obj) => dispatch => dispatch({type:'EMPTY_EXPERIENCE'})
+
+export const submitExperience = (obj) => (dispatch,getState) => {
+	fetch(`http://127.0.0.1:3001/experience`, {
+	  method: 'POST',
+	  headers: {
+	    'Accept': 'application/json',
+	    'Content-Type': 'application/json',
+	  },
+	  body: JSON.stringify(getState().experience.building)
+	})
+}

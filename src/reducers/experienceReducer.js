@@ -2,7 +2,13 @@ export default function reducer(state={
   data: [],
   fetching: false,
   fetched: false,
-  error: null
+  error: null,
+  building: {
+    name: '',
+    location: '',
+    text: 'Tell us your experience',
+    CategoryId: null
+  }
 }, action){
   switch (action.type) {
     case "REQUEST_EXPERIENCE":{
@@ -22,6 +28,23 @@ export default function reducer(state={
                 fetching: false,
                 error: action.payload
               }
+     }
+     case "BUILD_EXPERIENCE": {
+      return {
+          ...state,
+          building: action.payload
+        }
+     }
+     case "EMPTY_EXPERIENCE": {
+      return {
+          ...state,
+          building: {
+            name: '',
+            location: '',
+            text: 'Tell us your experience',
+            CategoryId: null
+          }
+        }
      }
      default: {
        return state

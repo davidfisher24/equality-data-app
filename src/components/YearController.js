@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { 
+  requestData,
   selectYear, 
   requestYears, 
 } from '../actions';
@@ -11,6 +12,7 @@ const mapStateToProps = state => ({
  ...state
 })
 const mapDispatchToProps = dispatch => ({
+  requestData: (obj) => dispatch(requestData(obj)),
   requestYears: (val) => dispatch(requestYears()),
   selectYear: (val) => dispatch(selectYear(val)),
 })
@@ -23,6 +25,15 @@ class YearController extends Component {
 
   handleYearChange (val) {
     this.props.selectYear(this.props.year.data[val].year)
+    if (this.props.map.displayed === 'coropleth') this.props.requestData({
+      type: 'categories',
+      category: this.props.category.selected,
+    })
+
+    if (this.props.map.displayed === 'boolean') this.props.requestData({
+      type: 'criteria',
+      criteria: this.props.criteria.selected,
+    })
   }
 
   render() {

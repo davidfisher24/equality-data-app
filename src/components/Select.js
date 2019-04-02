@@ -1,29 +1,11 @@
 import React, { Component } from 'react';
-import Select from 'react-select';
-
-const styles = {
-  control: (styles, { options }) => { 
-    return {
-      ...styles, 
-      backgroundColor: 'white',
-      width: '300px'
-    };
-  },
-  option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-    return {
-      ...styles,
-      backgroundColor: '#FFF',
-      color: '#000',
-      fontSize: '12px'
-    };
-  },
-};
+import { Select } from 'antd';
 
 class _Select extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedOption: -1,
+      selectedOption: props.selectedOption ? props.selectedOption : null,
     }
   }
 
@@ -36,30 +18,31 @@ class _Select extends Component {
 
   handleChange = (selectedOption) => {
     this.setState({ selectedOption });
-    this.props.onChange(selectedOption.value)
+    this.props.onChange(selectedOption)
   }
 
   handleEmpty = () => {
-    this.setState({ selectedOption: -1 });
+    this.setState({ selectedOption: null });
   }
 
   render() {
     const { selectedOption } = this.state;
     return (
-      <Select
-        value={selectedOption}
-        placeholder={this.props.placeholder}
-        styles={styles}
+      <Select 
+        value={selectedOption ? selectedOption : undefined}
         onChange={this.handleChange.bind(this)}
-        autosize={true}
-        options={this.props.options.map(opt => {
-          return {
-            value: opt.id,
-            label: opt.question,
-            key: opt.id
-          }
-        })}
+        style={{width: 230, display: 'block'}}
+        placeholder={this.props.placeholder}
       >
+        {this.props.options.map(opt => {
+          return (
+            <Select.Option 
+              value={opt.id} 
+              key={opt.id}
+            >
+                {opt.question}
+            </Select.Option>)
+        })}
       </Select>
     )
   }

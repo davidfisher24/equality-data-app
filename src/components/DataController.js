@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { 
+  requestData,
   requestCategories, 
   requestCriteria, 
   selectCategory,
@@ -15,6 +16,7 @@ const mapStateToProps = state => ({
  ...state
 })
 const mapDispatchToProps = dispatch => ({
+  requestData: (obj) => dispatch(requestData(obj)),
   requestCategories: () => dispatch(requestCategories()),
   requestCriteria: (obj) => dispatch(requestCriteria(obj)),
   selectCategory: (val) => dispatch(selectCategory(val)),
@@ -32,11 +34,23 @@ class DataController extends Component {
   handleCategoryChange (val) {
     val ? this.props.selectCategory(val) : this.props.unselectCategory();
     this.criteriaSelect.handleEmpty()
-    if (val) this.props.requestCriteria({category: val})
+    if (val) {
+      this.props.requestCriteria({category: val})
+      this.props.requestData({
+        type: 'categories',
+        category: val,
+      })
+    }
   }
 
   handleCriteriaChange (val) {
     val ? this.props.selectCriteria(val) : this.props.unselectCriteria();
+    if (val) {
+      this.props.requestData({
+        type: 'criteria',
+        criteria: val,
+      })
+    }
   }
 
   render() {
