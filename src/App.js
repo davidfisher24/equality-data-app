@@ -11,7 +11,6 @@ import YearController from './components/YearController'
 import Menu from './components/Menu'
 import Modal from './components/Modal'
 
-
 const mapStateToProps = state => ({
  ...state
 })

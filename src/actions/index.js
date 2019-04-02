@@ -9,12 +9,6 @@ export const requestMap = () => dispatch => {
 }
 
 export const requestData = (obj) => (dispatch,getState) => {
-	/*let url = 'http://127.0.0.1:3001/data?';
-	url += `${obj.type}=${
-		obj.type === 'categories' ? 
-		obj.category :
-		obj.criteria
-	}&year=${getState().year.selected}`;*/
 	let url = `http://127.0.0.1:3001/data?year=${getState().year.selected}`
 	if (obj.type !== 'index') {
 		url += `&${obj.type}=${

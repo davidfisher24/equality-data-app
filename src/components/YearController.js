@@ -25,10 +25,17 @@ class YearController extends Component {
 
   handleYearChange (val) {
     this.props.selectYear(this.props.year.data[val].year)
-    if (this.props.map.displayed === 'coropleth') this.props.requestData({
-      type: 'categories',
-      category: this.props.category.selected,
-    })
+
+    if (this.props.map.displayed === 'coropleth') {
+      if (this.props.category.selected) {
+        this.props.requestData({
+          type: 'categories',
+          category: this.props.category.selected,
+        })
+      } else {
+        this.props.requestData({type: 'index'})
+      }
+    }
 
     if (this.props.map.displayed === 'boolean') this.props.requestData({
       type: 'criteria',

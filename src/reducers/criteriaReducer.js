@@ -39,7 +39,8 @@ export default function reducer(state={
      case "UNSELECT_CRITERIA":{
        return {
                 ...state,
-                selected: null
+                selected: null,
+                data: [],
               }
      }
      default: {

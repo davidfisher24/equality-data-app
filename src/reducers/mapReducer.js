@@ -54,10 +54,10 @@ export default function reducer(state={
               coropleth: state.geojson.features.map((feat, i) => {
                 feat.properties.fillColor = 'white';
                 feat.properties.fillOpacity = 0;
-                //feat.geometry.coordinates = feat.geometry.coordinates
                 feat.properties.key = feat.properties.ISO_A3 
                 return feat; 
               }),
+              displayed: null,
             }
     }
      case "ERROR_MAP":{
