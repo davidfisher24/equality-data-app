@@ -5,6 +5,7 @@ export default function reducer(state={
   error: null,
   building: {
     name: '',
+    email: '',
     location: '',
     text: 'Tell us your experience',
     CategoryId: null
@@ -40,6 +41,7 @@ export default function reducer(state={
           ...state,
           building: {
             name: '',
+            email: '',
             location: '',
             text: 'Tell us your experience',
             CategoryId: null

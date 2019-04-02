@@ -1,5 +1,15 @@
+const MODAL_OPTIONS = {
+  'add-experience' : {
+    title: 'Add Your Experience',
+  },
+  'see-information' : {
+    title: 'Page Information',
+  }
+}
+
 export default function reducer(state={
   visible: false,
+  props: {},
   type:  null
 }, action){
   switch (action.type) {
@@ -7,6 +17,7 @@ export default function reducer(state={
       return {
         ...state,
         type: action.payload,
+        props: MODAL_OPTIONS[action.payload],
         visible: true,
       }
     }
@@ -14,6 +25,7 @@ export default function reducer(state={
        return {
                 ...state,
                 type: null,
+                props: {},
                 visible: false,
               }
      }

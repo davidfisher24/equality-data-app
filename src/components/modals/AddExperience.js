@@ -42,6 +42,7 @@ class AddExperienceModal extends Component {
           selectedOption={this.state.CategoryId}
         />
         <Input addonBefore="Name" name="name" value={this.state.name}/>
+        <Input addonBefore="Email" name="email" value={this.state.email}/>
         <Input addonBefore="Location" name="location" value={this.state.location}/>
         <Input.TextArea 
           name="text"
@@ -53,4 +54,4 @@ class AddExperienceModal extends Component {
 }
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(AddExperienceModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AddExperienceModal);

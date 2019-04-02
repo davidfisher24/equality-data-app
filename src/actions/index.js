@@ -9,18 +9,26 @@ export const requestMap = () => dispatch => {
 }
 
 export const requestData = (obj) => (dispatch,getState) => {
-	let url = 'http://127.0.0.1:3001/data?';
+	/*let url = 'http://127.0.0.1:3001/data?';
 	url += `${obj.type}=${
 		obj.type === 'categories' ? 
 		obj.category :
 		obj.criteria
-	}&year=${getState().year.selected}`;
+	}&year=${getState().year.selected}`;*/
+	let url = `http://127.0.0.1:3001/data?year=${getState().year.selected}`
+	if (obj.type !== 'index') {
+		url += `&${obj.type}=${
+			obj.type === 'categories' ? 
+			obj.category :
+			obj.criteria
+		}`
+	}
 	fetch(url).then((res) => res.json())
 	.then((data) => {
 		dispatch({type:'RECIEVE_DATA', payload: data})
-		obj.type === 'categories' ? 
-		dispatch({type:'UPDATE_COROPLETH', payload: data}) :
-		dispatch({type:'UPDATE_BOOLEAN_DATA', payload: data})
+		obj.type === 'criteria'  ? 
+		dispatch({type:'UPDATE_BOOLEAN_DATA', payload: data}) :
+		dispatch({type:'UPDATE_COROPLETH', payload: data})
 	})
 	.catch((err) => dispatch({type:'ERROR_DATA', payload: err}))
 }
@@ -84,3 +92,5 @@ export const submitExperience = (obj) => (dispatch,getState) => {
 	  body: JSON.stringify(getState().experience.building)
 	})
 }
+
+export const clearMap = () => dispatch => dispatch({type:'CLEAR_MAP'})

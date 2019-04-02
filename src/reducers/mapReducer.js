@@ -2,7 +2,7 @@ import LConvertor from '../LConvertor'
 
 const getColor = (d) => {
     if (!d) return '#C0C0C0'
-    d = d.categories[0].value
+    d = d.categories.length > 0 ? d.categories[0].value : d.wblIndex
     return d >= 100 ? '#800026' :
            d > 85  ? '#BD0026' :
            d > 70  ? '#E31A1C' :
@@ -20,6 +20,7 @@ const getBooleanColor = (d) => {
 } 
 
 export default function reducer(state={
+  geojson: {},
   coropleth: [],
   boolean: [],
   markers: [],
@@ -37,10 +38,23 @@ export default function reducer(state={
               ...state,
               fetching: false,
               fetched: true,
+              geojson: action.payload,
               coropleth: action.payload.features.map((feat, i) => {
                 feat.properties.fillColor = 'white';
                 feat.properties.fillOpacity = 0;
                 feat.geometry.coordinates = LConvertor(feat.geometry.coordinates)
+                feat.properties.key = feat.properties.ISO_A3 
+                return feat; 
+              }),
+            }
+    }
+    case "CLEAR_MAP":{
+      return {
+              ...state,
+              coropleth: state.geojson.features.map((feat, i) => {
+                feat.properties.fillColor = 'white';
+                feat.properties.fillOpacity = 0;
+                //feat.geometry.coordinates = feat.geometry.coordinates
                 feat.properties.key = feat.properties.ISO_A3 
                 return feat; 
               }),

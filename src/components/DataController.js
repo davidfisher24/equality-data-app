@@ -8,8 +8,9 @@ import {
   selectCriteria,
   unselectCategory,
   unselectCriteria,
+  clearMap,
 } from '../actions';
-
+import { Anchor } from 'antd';
 import Select from './Select'
 
 const mapStateToProps = state => ({
@@ -23,6 +24,7 @@ const mapDispatchToProps = dispatch => ({
   selectCriteria: (val) => dispatch(selectCriteria(val)),
   unselectCategory: () => dispatch(unselectCategory()),
   unselectCriteria: () => dispatch(unselectCriteria()),
+  clearMap: () => dispatch(clearMap()),
 })
 
 class DataController extends Component {
@@ -53,6 +55,18 @@ class DataController extends Component {
     }
   }
 
+  requestIndexData () {
+    this.criteriaSelect.handleEmpty()
+    this.categorySelect.handleEmpty()
+    this.props.requestData({type:'index'})
+  }
+
+  handleClearMap () {
+    this.criteriaSelect.handleEmpty()
+    this.categorySelect.handleEmpty()
+    this.props.clearMap();
+  }
+
   render() {
     return (
       <div id="dataController">
@@ -68,6 +82,12 @@ class DataController extends Component {
           onChange={this.handleCriteriaChange.bind(this)}
           onRef={ref => (this.criteriaSelect = ref)}
         />
+        <Anchor affix={false} onClick={this.requestIndexData.bind(this)}>
+          <Anchor.Link href="#" title="See wbl index" />
+        </Anchor>
+        <Anchor affix={false} onClick={this.handleClearMap.bind(this)}>
+          <Anchor.Link href="#" title="ClearMap" />
+        </Anchor>
       </div>
     );
   }

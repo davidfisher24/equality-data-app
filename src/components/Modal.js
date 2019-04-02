@@ -14,6 +14,11 @@ const mapDispatchToProps = dispatch => ({
 
 class _Modal extends Component {
 
+  constructor(props){
+    super(props);
+    this.state = this.props.modal.properties
+  }
+
   handleOk = (e) => {
     this.props.closeModal()
   }
@@ -26,11 +31,10 @@ class _Modal extends Component {
     let SelectedModal = this.props.modal.type ?
                         MODAL_TYPES[this.props.modal.type] :
                         () => (<div></div>)
-
     return (
       <div className="modal">
         <Modal
-          title="Basic Modal"
+          title={this.props.modal.props.title}
           visible={this.props.modal.visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
