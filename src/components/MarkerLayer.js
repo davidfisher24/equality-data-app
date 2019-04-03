@@ -18,7 +18,7 @@ class MarkerLayer extends Component {
             >
               <Popup>
                 <strong>
-                  {feat.properties.name}, {feat.properties.location}, {feat.properties.Country.name}
+                  {feat.properties.name}, {feat.properties.location}
                 </strong><br/>
                 <i>{feat.properties.createdAt.substring(0,10)}</i>
                 <p>

@@ -7,9 +7,10 @@
   z-index:1;
 }
 
-/*.leaflet-container, .leaflet-polygon {
-	cursor: url(http://localhost:3001/assets/marker.png), auto!important;
-}*/
+.addingCursorClass,
+.addingCursorClass .leaflet-interactive {
+	cursor: url(http://localhost:3001/assets/marker.png) 50 100, auto!important;
+}
 
 #dataController {
 	position:absolute;

@@ -3,12 +3,16 @@ export default function reducer(state={
   fetching: false,
   fetched: false,
   error: null,
+  addingToMap: false,
   building: {
     name: '',
     email: '',
     location: '',
     text: 'Tell us your experience',
-    CategoryId: null
+    CategoryId: null,
+    latitude: null,
+    longitude: null,
+    country: null,
   }
 }, action){
   switch (action.type) {
@@ -36,6 +40,17 @@ export default function reducer(state={
           building: action.payload
         }
      }
+     case "ADD_EXPERIENCE_POINT": {
+      return {
+          ...state,
+          building: {
+            ...state.building, 
+            latitude: action.payload.latitude,
+            longitude: action.payload.longitude,
+            country: action.payload.isocode
+          }
+        }
+     }
      case "EMPTY_EXPERIENCE": {
       return {
           ...state,
@@ -46,6 +61,18 @@ export default function reducer(state={
             text: 'Tell us your experience',
             CategoryId: null
           }
+        }
+     }
+     case "START_ADDING_EXPERIENCE": {
+      return {
+          ...state,
+          addingToMap: true,
+        }
+     }
+     case "STOP_ADDING_EXPERIENCE": {
+      return {
+          ...state,
+          addingToMap: false,
         }
      }
      default: {

@@ -13,7 +13,6 @@ class DataLayer extends Component {
       <LayerGroup>
         {this.props.map.coropleth.map((feat, i) => {                     
            return (<Polygon 
-            className="leaflet-polygon"
             color="white"
             fillColor={feat.properties.fillColor}
             weight={0}

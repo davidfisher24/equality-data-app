@@ -3,7 +3,8 @@ import { Input, Form, Modal } from 'antd';
 import { connect } from 'react-redux';
 import {
   buildExperience,
-  closeModal
+  closeModal,
+  startAddingExperience,
 } from '../../actions'
 import Select from '../Select'
 
@@ -14,6 +15,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   buildExperience: (obj) => dispatch(buildExperience(obj)),
   closeModal: (val) => dispatch(closeModal(val)),
+  startAddingExperience: () => dispatch(startAddingExperience()),
 })
 
 class AddExperienceModal extends Component {
@@ -24,7 +26,7 @@ class AddExperienceModal extends Component {
   }
 
   handleOk = (e) => {
-    this.props.closeModal()
+    this.props.startAddingExperience()
   }
 
   handleCancel = (e) => {

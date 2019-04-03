@@ -1,3 +1,5 @@
+import { booleanPointInPolygon as Tinside, point as Tpoint } from '@turf/turf';
+
 export const requestMap = () => dispatch => {
 	fetch('../data/countries.geojson')
 	.then((res) => res.json())
@@ -28,10 +30,11 @@ export const requestData = (obj) => (dispatch,getState) => {
 }
 
 export const requestExperiences = () => dispatch => {
+	console.log('requesting experiences')
 	let url = 'http://127.0.0.1:3001/experience';
 	fetch(url).then((res) => res.json())
 	.then((data) => {
-		dispatch({type:'RECIEVE_EXPERIENCES', payload: data})
+		dispatch({type:'RECIEVE_EXPERIENCE', payload: data})
 		dispatch({type:'UPDATE_MARKERS', payload: data})
 	})
 	.catch((err) => dispatch({type:'ERROR_MARKERS', payload: err}))
@@ -75,8 +78,23 @@ export const closeModal = () => dispatch => dispatch({type:'CLOSE_MODAL'})
 
 export const buildExperience = (obj) => dispatch => dispatch({type:'BUILD_EXPERIENCE', payload: obj})
 export const emptyExperience = (obj) => dispatch => dispatch({type:'EMPTY_EXPERIENCE'})
+export const startAddingExperience = () => dispatch => {
+	dispatch({type:'START_ADDING_EXPERIENCE'})
+	dispatch({type:'CLOSE_MODAL'})
+}
 
-export const submitExperience = (obj) => (dispatch,getState) => {
+export const submitExperience = (latlng) => (dispatch,getState) => {
+	const point = Tpoint([latlng.lat,latlng.lng]);
+    let country = getState().map.geojson.features.find(feat => Tinside(point,feat));
+    let payload = {
+      latitude: latlng.lat,
+      longitude: latlng.lng,
+    }
+    if (country) payload.isocode = country.properties.ISO_A3
+    console.log(payload)
+	dispatch({type:'ADD_EXPERIENCE_POINT', payload: payload})
+	console.log(getState().experience.building)
+
 	fetch(`http://127.0.0.1:3001/experience`, {
 	  method: 'POST',
 	  headers: {
@@ -85,6 +103,9 @@ export const submitExperience = (obj) => (dispatch,getState) => {
 	  },
 	  body: JSON.stringify(getState().experience.building)
 	})
+
+	dispatch({type:'STOP_ADDING_EXPERIENCE'})
+	dispatch({type:'EMPTY_EXPERIENCE'})
 }
 
 export const clearMap = () => dispatch => dispatch({type:'CLEAR_MAP'})
