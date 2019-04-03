@@ -9,7 +9,7 @@ export default function reducer(state={
     email: '',
     location: '',
     text: 'Tell us your experience',
-    CategoryId: null,
+    category: null,
     latitude: null,
     longitude: null,
     country: null,
@@ -59,7 +59,7 @@ export default function reducer(state={
             email: '',
             location: '',
             text: 'Tell us your experience',
-            CategoryId: null
+            category: null
           }
         }
      }

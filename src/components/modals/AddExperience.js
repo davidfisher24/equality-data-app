@@ -26,7 +26,11 @@ class AddExperienceModal extends Component {
   }
 
   handleOk = (e) => {
-    this.props.startAddingExperience()
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        this.props.startAddingExperience()
+      }
+    });
   }
 
   handleCancel = (e) => {
@@ -38,39 +42,115 @@ class AddExperienceModal extends Component {
   }
 
   handleSelectChange (val) {
-    this.setState({ CategoryId: val },() => this.props.buildExperience(this.state));
+    this.setState({ category: val },() => this.props.buildExperience(this.state));
   }
-    
+
+  checkCategory = (rule, value, callback) => {
+    if (value && value > -1) {
+      callback();
+      return;
+    }
+    callback('Choose a category');
+  }
+
+  checkName = (rule, value, callback) => {
+    if (value.length > 1) {
+      callback();
+      return;
+    }
+    callback('Insert a name');
+  }
+
+  checkEmail = (rule, value, callback) => {
+    if (value.length > 5) {
+      callback();
+      return;
+    }
+    callback('Insert an email');
+  }
+
+  checkLocation = (rule, value, callback) => {
+    if (value.length > 1) {
+      callback();
+      return;
+    }
+    callback('Insert a location');
+  }
+
+  checkText = (rule, value, callback) => {
+    if (value.length > 20) {
+      callback();
+      return;
+    }
+    callback('Must be a minimum 20 characters');
+  }
+
+
   render() {
+    const { getFieldDecorator } = this.props.form;
+
     return (
-      <Modal
-        title="Add Your Experience"
-        visible={this.props.modal.visible}
-        onOk={this.handleOk}
-        onCancel={this.handleCancel}
+      <Form 
+        onChange={this.handleDataChange.bind(this)}
       >
-        <Form 
-          onChange={this.handleDataChange.bind(this)}
+        <Modal
+          title="Add Your Experience"
+          visible={this.props.modal.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
         >
-          <Select 
+
+          <Form.Item>
+            {getFieldDecorator('category', {
+              initialValue: this.state.category,
+              rules: [{ validator: (this.checkCategory) }],
+            })(<Select 
             placeholder="Select Category"
             options={this.props.category.data} 
             onChange={this.handleSelectChange.bind(this)}
             onRef={ref => (this.categorySelect = ref)}
-            selectedOption={this.state.CategoryId}
-          />
-          <Input addonBefore="Name" name="name" value={this.state.name}/>
-          <Input addonBefore="Email" name="email" value={this.state.email}/>
-          <Input addonBefore="Location" name="location" value={this.state.location}/>
-          <Input.TextArea 
-            name="text"
-            value={this.state.text}
-          />
-        </Form>
+            selectedOption={this.state.category}
+          />)}
+          </Form.Item>
+        
+          <Form.Item>
+            {getFieldDecorator('name', {
+              initialValue: this.state.name,
+              rules: [{ validator: (this.checkName) }],
+            })(<Input addonBefore="Name" name="name"/>)}
+          </Form.Item>
+
+          <Form.Item>
+            {getFieldDecorator('email', {
+              initialValue: this.state.email,
+              rules: [{ validator: (this.checkEmail) }],
+            })(<Input addonBefore="Email" name="email"/>)}
+          </Form.Item>
+
+          <Form.Item>
+            {getFieldDecorator('location', {
+              initialValue: this.state.location,
+              rules: [{ validator: (this.checkLocation) }],
+            })(<Input addonBefore="Location" name="location"/>)}
+          </Form.Item>
+
+          <Form.Item>
+            {getFieldDecorator('text', {
+              initialValue: this.state.text,
+              rules: [{ validator: (this.checkText) }],
+            })(<Input.TextArea />)}
+          </Form.Item>
+          
+          
+          
+        
       </Modal>
+      </Form>
     );
   }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddExperienceModal);
+
+const ModalForm = Form.create()(AddExperienceModal)
+export default connect(mapStateToProps, mapDispatchToProps)(ModalForm);

@@ -30,7 +30,6 @@ export const requestData = (obj) => (dispatch,getState) => {
 }
 
 export const requestExperiences = () => dispatch => {
-	console.log('requesting experiences')
 	let url = 'http://127.0.0.1:3001/experience';
 	fetch(url).then((res) => res.json())
 	.then((data) => {
@@ -91,9 +90,7 @@ export const submitExperience = (latlng) => (dispatch,getState) => {
       longitude: latlng.lng,
     }
     if (country) payload.isocode = country.properties.ISO_A3
-    console.log(payload)
 	dispatch({type:'ADD_EXPERIENCE_POINT', payload: payload})
-	console.log(getState().experience.building)
 
 	fetch(`http://127.0.0.1:3001/experience`, {
 	  method: 'POST',
