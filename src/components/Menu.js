@@ -5,6 +5,7 @@ import {
   requestExperiences, 
   removeExperiences, 
   openModal,
+  openDataDrawer
 } from '../actions';
 
 const mapStateToProps = state => ({
@@ -14,6 +15,7 @@ const mapDispatchToProps = dispatch => ({
   requestExperiences: (val) => dispatch(requestExperiences()),
   removeExperiences: (val) => dispatch(removeExperiences()),
   openModal: (val) => dispatch(openModal(val)),
+  openDataDrawer: (val) => dispatch(openDataDrawer(val)),
 })
 
 
@@ -44,6 +46,11 @@ class _Menu extends Component {
       markers: !this.state.markers,
     });
   }
+
+  openDataDrawer = () => {
+    this.props.openDataDrawer()
+  }
+
 
   openModal = (val) => {
     let type;
@@ -88,7 +95,7 @@ class _Menu extends Component {
             <span>Add Your Marker</span>
           </Menu.Item>
           <Menu.Item key="3">
-            <Icon type="pie-chart"/>
+            <Icon type="pie-chart" onClick={this.openDataDrawer.bind(this)}/>
             <span>Show Table Data</span>
           </Menu.Item>
           <Menu.Item key="4" onClick={this.openModal.bind(this)}>

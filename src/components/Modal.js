@@ -7,10 +7,6 @@ const mapStateToProps = state => ({
 })
 
 class _Modal extends Component {
-  constructor(props){
-    super(props);
-  }
-
   render() {
     let SelectedModal = this.props.modal.type ?
                         MODAL_TYPES[this.props.modal.type] :

@@ -10,6 +10,7 @@ import DataController from './components/DataController'
 import YearController from './components/YearController'
 import Menu from './components/Menu'
 import Modal from './components/Modal'
+import DataDrawer from './components/DataDrawer'
 
 const mapStateToProps = state => ({
  ...state
@@ -50,6 +51,7 @@ class App extends Component {
       <DataController />
       <Menu />
       <Modal />
+      <DataDrawer />
     </div>
     );
   }

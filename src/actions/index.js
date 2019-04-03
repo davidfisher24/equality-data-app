@@ -88,3 +88,5 @@ export const submitExperience = (obj) => (dispatch,getState) => {
 }
 
 export const clearMap = () => dispatch => dispatch({type:'CLEAR_MAP'})
+export const openDataDrawer = () => dispatch => dispatch({type: 'OPEN_DATA_DRAWER'})
+export const closeDataDrawer = () => dispatch => dispatch({type: 'CLOSE_DATA_DRAWER'})

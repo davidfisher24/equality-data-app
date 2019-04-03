@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import {
   closeModal
 } from '../../actions'
-import Select from '../Select'
 
 const mapStateToProps = state => ({
  ...state
