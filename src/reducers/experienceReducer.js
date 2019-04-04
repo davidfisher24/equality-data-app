@@ -1,5 +1,6 @@
 export default function reducer(state={
   data: [],
+  types: [],
   fetching: false,
   fetched: false,
   error: null,
@@ -13,6 +14,7 @@ export default function reducer(state={
     latitude: null,
     longitude: null,
     country: null,
+    type: 1,
   }
 }, action){
   switch (action.type) {
@@ -25,6 +27,14 @@ export default function reducer(state={
               fetching: false,
               fetched: true,
               data:action.payload
+              }
+    }
+    case "RECIEVE_EXPERIENCE_TYPES":{
+      return {
+              ...state,
+              fetching: false,
+              fetched: true,
+              types:action.payload
               }
     }
      case "ERROR_EXPERIENCE":{
@@ -59,7 +69,8 @@ export default function reducer(state={
             email: '',
             location: '',
             text: 'Tell us your experience',
-            category: null
+            category: null,
+            type: 1
           }
         }
      }

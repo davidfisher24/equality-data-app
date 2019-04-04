@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import { Input, Form, Modal } from 'antd';
+import { Input, Form, Modal, Tabs, Icon } from 'antd';
 import { connect } from 'react-redux';
 import {
   buildExperience,
   closeModal,
   startAddingExperience,
+  requestExperienceTypes
 } from '../../actions'
 import Select from '../Select'
+
 
 const mapStateToProps = state => ({
  ...state
@@ -16,6 +18,7 @@ const mapDispatchToProps = dispatch => ({
   buildExperience: (obj) => dispatch(buildExperience(obj)),
   closeModal: (val) => dispatch(closeModal(val)),
   startAddingExperience: () => dispatch(startAddingExperience()),
+  requestExperienceTypes: () => dispatch(requestExperienceTypes())
 })
 
 class AddExperienceModal extends Component {
@@ -23,6 +26,10 @@ class AddExperienceModal extends Component {
   constructor(props){
     super(props)
     this.state = this.props.experience.building
+  }
+
+  componentWillMount(){
+    this.props.requestExperienceTypes()
   }
 
   handleOk = (e) => {
@@ -45,6 +52,10 @@ class AddExperienceModal extends Component {
     this.setState({ category: val },() => this.props.buildExperience(this.state));
   }
 
+  handleTypeChange (val) {
+    this.setState({ type: val },() => this.props.buildExperience(this.state));
+  }
+
   checkCategory = (rule, value, callback) => {
     if (value && value > -1) {
       callback();
@@ -62,7 +73,8 @@ class AddExperienceModal extends Component {
   }
 
   checkEmail = (rule, value, callback) => {
-    if (value.length > 5) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (value.length > 4 && re.test(String(value).toLowerCase())) {
       callback();
       return;
     }
@@ -88,7 +100,6 @@ class AddExperienceModal extends Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-
     return (
       <Form 
         onChange={this.handleDataChange.bind(this)}
@@ -99,6 +110,23 @@ class AddExperienceModal extends Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
+          <Form.Item>
+            <Tabs 
+              defaultActiveKey={this.state.type.toString()}
+              onChange={this.handleTypeChange.bind(this)}
+            >
+              {this.props.experience.types.map((type,i) => {
+                return (
+                  <Tabs.TabPane 
+                    tab={<Icon type={type.icon} />} 
+                    key={type.id.toString()}
+                    style={{height:0}}
+                  >
+                  </Tabs.TabPane>
+                )
+              })}
+            </Tabs>
+          </Form.Item>
 
           <Form.Item>
             {getFieldDecorator('category', {
@@ -138,7 +166,7 @@ class AddExperienceModal extends Component {
             {getFieldDecorator('text', {
               initialValue: this.state.text,
               rules: [{ validator: (this.checkText) }],
-            })(<Input.TextArea />)}
+            })(<Input.TextArea name="text"/>)}
           </Form.Item>
           
           

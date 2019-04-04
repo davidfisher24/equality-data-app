@@ -39,6 +39,15 @@ export const requestExperiences = () => dispatch => {
 	.catch((err) => dispatch({type:'ERROR_MARKERS', payload: err}))
 }
 
+export const requestExperienceTypes = () => dispatch => {
+	let url = 'http://127.0.0.1:3001/experience-type';
+	fetch(url).then((res) => res.json())
+	.then((data) => {
+		dispatch({type:'RECIEVE_EXPERIENCE_TYPES', payload: data})
+	})
+	.catch((err) => dispatch({type:'ERROR_EXPERIENCE', payload: err}))
+}
+
 export const removeExperiences = () => dispatch => {
 	dispatch({type:'REMOVE_MARKERS'})
 }
@@ -92,6 +101,8 @@ export const submitExperience = (latlng) => (dispatch,getState) => {
     if (country) payload.isocode = country.properties.ISO_A3
 	dispatch({type:'ADD_EXPERIENCE_POINT', payload: payload})
 
+	console.log('Submitting')
+	console.log(getState().experience.building)
 	fetch(`http://127.0.0.1:3001/experience`, {
 	  method: 'POST',
 	  headers: {
