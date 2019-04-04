@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { Map, TileLayer, ZoomControl } from 'react-leaflet'
 import { connect } from 'react-redux';
-import { requestMap, submitExperience } from './actions';
+import { requestMap, setExperienceLocation } from './actions';
 import DataLayer from './components/DataLayer'
 import MarkerLayer from './components/MarkerLayer'
 import DataController from './components/DataController'
@@ -16,7 +16,7 @@ const mapStateToProps = state => ({
 })
 const mapDispatchToProps = dispatch => ({
   requestMap: () => dispatch(requestMap()),
-  submitExperience: (latlng) => dispatch(submitExperience(latlng))
+  setExperienceLocation: (latlng) => dispatch(setExperienceLocation(latlng))
 })
 
 const position = [51.505, -0.09]
@@ -29,7 +29,7 @@ class App extends Component {
 
   checkAddMarkerEvent(e) {
     if (!this.props.experience.addingToMap) return;
-    this.props.submitExperience(e.latlng);
+    this.props.setExperienceLocation(e.latlng);
   }
   
   render() {

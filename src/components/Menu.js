@@ -69,7 +69,10 @@ class _Menu extends Component {
   render() {
     const {collapsed} = this.state
     return (
-      <div style={{ width: 256 }} id="menu">
+      <div style={{ 
+        width: collapsed ? 50 : 250,
+        transition: 'width 500ms ease-in-out'
+      }} id="menu">
 
         <Menu
           mode="inline"
@@ -77,7 +80,7 @@ class _Menu extends Component {
           inlineCollapsed={collapsed}
           style={{ 
             float: 'right', 
-            background: this.state.collapsed ? 'none' : '#FFF'
+            background: this.state.collapsed ? 'none' : 'rgba(256,256,256,0.7)'
           }} 
         >
           <Menu.Item key="0" onClick={this.toggleCollapsed} >

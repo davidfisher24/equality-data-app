@@ -14,6 +14,7 @@ export default function reducer(state={
     latitude: null,
     longitude: null,
     country: null,
+    countryName: null,
     type: 1,
   }
 }, action){
@@ -57,7 +58,20 @@ export default function reducer(state={
             ...state.building, 
             latitude: action.payload.latitude,
             longitude: action.payload.longitude,
-            country: action.payload.isocode
+            country: action.payload.isocode,
+            countryName: action.payload.countryName
+          }
+        }
+     }
+     case "RESET_EXPERIENCE_POINT": {
+      return {
+          ...state,
+          building: {
+            ...state.building, 
+            latitude: null,
+            longitude: null,
+            country: null,
+            countryName: null,
           }
         }
      }
@@ -70,7 +84,11 @@ export default function reducer(state={
             location: '',
             text: 'Tell us your experience',
             category: null,
-            type: 1
+            type: 1,
+            longitude: null,
+            latitude: null,
+            country: null,
+            countryName: null,
           }
         }
      }

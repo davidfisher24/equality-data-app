@@ -85,6 +85,25 @@ export const openModal = (type) => dispatch => dispatch({type:'OPEN_MODAL', payl
 export const closeModal = () => dispatch => dispatch({type:'CLOSE_MODAL'})
 
 export const buildExperience = (obj) => dispatch => dispatch({type:'BUILD_EXPERIENCE', payload: obj})
+export const setExperienceLocation = (latlng) => (dispatch,getState) => {
+	const point = Tpoint([latlng.lat,latlng.lng]);
+    let country = getState().map.geojson.features.find(feat => Tinside(point,feat));
+    let payload = {
+      latitude: latlng.lat,
+      longitude: latlng.lng,
+    }
+    if (country) {
+    	payload.isocode = country.properties.ISO_A3;
+    	payload.countryName = country.properties.ADMIN;
+    }
+	dispatch({type:'ADD_EXPERIENCE_POINT', payload: payload})
+	dispatch({type:'OPEN_MODAL', payload: 'confirm-add-experience'})
+}
+export const resetExperienceLocation = () => dispatch => {
+	dispatch({type:'RESET_EXPERIENCE_POINT'})
+	dispatch({type:'CLOSE_MODAL'})
+}
+
 export const emptyExperience = (obj) => dispatch => dispatch({type:'EMPTY_EXPERIENCE'})
 export const startAddingExperience = () => dispatch => {
 	dispatch({type:'START_ADDING_EXPERIENCE'})
@@ -92,17 +111,6 @@ export const startAddingExperience = () => dispatch => {
 }
 
 export const submitExperience = (latlng) => (dispatch,getState) => {
-	const point = Tpoint([latlng.lat,latlng.lng]);
-    let country = getState().map.geojson.features.find(feat => Tinside(point,feat));
-    let payload = {
-      latitude: latlng.lat,
-      longitude: latlng.lng,
-    }
-    if (country) payload.isocode = country.properties.ISO_A3
-	dispatch({type:'ADD_EXPERIENCE_POINT', payload: payload})
-
-	console.log('Submitting')
-	console.log(getState().experience.building)
 	fetch(`http://127.0.0.1:3001/experience`, {
 	  method: 'POST',
 	  headers: {
@@ -114,6 +122,7 @@ export const submitExperience = (latlng) => (dispatch,getState) => {
 
 	dispatch({type:'STOP_ADDING_EXPERIENCE'})
 	dispatch({type:'EMPTY_EXPERIENCE'})
+	dispatch({type:'CLOSE_MODAL'})
 }
 
 export const clearMap = () => dispatch => dispatch({type:'CLEAR_MAP'})
